@@ -1,0 +1,102 @@
+<script type="text/javascript">
+  function confirmValidate(){
+var Check = confirm("Are you sure you want to delete this?");
+if(Check){
+    return true;
+}else{
+    return false;
+}
+
+}
+</script>
+
+<span class="bus_back1">
+<form action="#" method="get">
+  <select name="locale" onchange="this.form.submit()">
+    <option>Select Language</option>
+    <option value="en">English</option>
+    <option value="rs">Russian</option>
+    <option value="fn">Finnish</option>
+    <option value="sd">Swedish</option>
+    <option value="pl">Polish</option>
+   </select>
+</form></span>
+<p style="text-align:right"><%= current_user.name %><%= link_to "Sign out", :signout %></p>
+<div class="adminsales">
+    <div id="add-deal-location" >
+      <div style="color:#ee0000;"><%= flash[:notice] %></div>
+        <div class="actions"><span class="bus_back"><%= button_to 'Add Wish', {:action => 'add_wish', :controller => "users", :id=>session[:user_id] } %></span></div>
+          <pre><div id="info"></div></pre>
+<script type="text/javascript" src="/js/jquery-1.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-personalized-1.js"></script>
+<script type="text/javascript">
+    // When the document is ready set up our sortable with it's inherant function(s)
+    $(document).ready(function() {
+
+        $("#test-list").sortable({
+            handle : '.handle',
+            update : function () {
+            var order = $('#test-list').sortable('serialize');
+                $("#info").load("/products/ordering_list/"+order);
+            }
+        });
+    });
+</script>
+ <p class="caps"><%= t :Your_friends_wish_to_have%> </p>
+<div id="test-list-category">
+<div class="heading">
+<ul>
+<li class="first"><%=t :Name%></li>
+<li class="middle"><%= t :Wish_Complition_Date%></li>
+<li class="last"><%= t :Action %></li>
+</ul>
+</div>
+<ul id="test-list" class="ui-sortable">
+    <% @pro_order.each do |i|  %>
+          <li id="listItem_<%= i.id%>">
+	       <div class="listname">
+	          <img width="16" height="16" class="handle" alt="move" src="/images/arrow.png"/>
+                  <%= link_to i.name, {:action => 'profile', :controller => "users",:id => i.id} %></div>
+		   <div class="listdate"><%= i.wish_date%></div>
+		   <div class="listaction"> <%= link_to "Edit", {:action => 'edit', :controller => "products", :id => i.id} %><span>/</span><%= link_to "Delete", {:action => 'destroy', :controller => "products",:id => i.id}, :onclick=>" return confirmValidate();"%></div>
+           </li>
+    <%end%>
+</ul>
+</div>
+<p class="caps"><h3><b><%= t :Show_Friend_List%></b> </h3> </p>
+<div id="test-list-category">
+    <div class="heading">
+      <ul>
+        <li class="first"><%=t :Name%></li>
+        <li class="last"><%= t :Email %></li>
+      </ul>
+</div>
+<ul id="test-list" class="ui-sortable">
+      <% @friends.each do |f| %>
+             <li id="listItem_">
+               <div class="listname">
+	       <img width="16" height="16" class="handle" alt="move" src="/images/arrow.png"/>
+               <%= link_to f.uname, {:action => 'product_profile', :controller => "users",:id => f.id} %></div>
+               <div class="listdate1"><%= f.uemail%></div>
+            </li>
+      <%end%>
+
+</ul>
+<div class="emailbox">
+  <h3><%=t :Send_the_list_via_email%></h3>
+  <% if current_user.id == @user.id then %>
+			<%= form_tag(sendlist_user_products_path(current_user)) do %>
+                          <div class="clear"></div>
+                        <span id="email" style="color:#ee0000;"></span>
+                       <div class="clear"></div>
+  				<%= text_field_tag(:email) %>
+                        <div class="actions">
+  				<%= submit_tag("Send") %>
+                        </div>
+			<% end %>
+			<br/>
+		<% end %>
+        </div>
+      </div>
+    </div>
+</div>

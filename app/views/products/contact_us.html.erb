@@ -1,0 +1,32 @@
+<p style="text-align:right"><%= current_user.name %><%= link_to "Sign out", :signout %></p>
+<div class="adminsales">
+  <div id="add-deal-location" >
+    <div class="contactus">
+      <div align ="center"><h1>Contact Us</h1></div>
+      <%= form_for(@contact_us, :as =>:products, :url =>"/products/contact_us_user", :id => session[:user_id], :method =>"post") do |f| %>
+<div class ="clear"></div>
+<label><b>Name:</b></label>
+<div class="clear"></div>
+<%= f.text_field :name %>
+<div class="clear"></div>
+<label><b>Email:</b></label>
+<div class="clear"></div>
+<%= f.email_field :email %>
+<div class="clear"></div>
+<label><b>Subject:</b></label>
+<div class="clear"></div>
+<%= f.text_field :subject %>
+<div class="clear"></div>
+<label><b>Message:</b></label>
+<div class="clear"></div>
+<%= f.text_area :message %>
+<div class="clear"></div>
+<%= f.hidden_field :id, :value => session[:user_id]%>
+<div class= "actions">
+<%= f.submit "Send Message"%>
+</div>
+
+<%end%>
+    </div>
+  </div>
+  </div>
